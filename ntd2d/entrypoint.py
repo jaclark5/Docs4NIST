@@ -39,7 +39,8 @@ def main():
                 subprocess.run(["pip", "install", "-r", requirements.as_posix()],
                                bufsize=1,
                                text=True,
-                               check=True)
+                               check=True, 
+                               env=os.environ.copy(),)
 
     # Install any Conda packages requested
     environment = os.environ['INPUT_CONDA-ENVIRONMENT']
@@ -49,19 +50,20 @@ def main():
             if environment.is_file():
                 gha_utils.debug(f"conda installing", use_subprocess=True)
                 subprocess.run(["conda", "env", "update",
-                                # quiet to shut off progress bars
                                 "--quiet",
                                 "--name", "base",
                                 "--solver", "libmamba",
                                 "--file", environment.as_posix()],
                                bufsize=1,
                                text=True,
-                               check=True)
+                               check=True,
+                               env=os.environ.copy(),)
                 subprocess.run(["conda", "list",
                                 "--name", "base"],
                                bufsize=1,
                                text=True,
-                               check=True)
+                               check=True,
+                               env=os.environ.copy(),)
 
     # Actually NIST the Docs 2 Death
     # This needs to be a subprocess so that it sees packages installed above

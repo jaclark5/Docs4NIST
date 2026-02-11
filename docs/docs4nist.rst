@@ -26,6 +26,8 @@ as :file:`.github/workflows/Docs4NIST.yml`:
        runs-on: ubuntu-latest
        steps:
          - uses: usnistgov/Docs4NIST@0.7
+           env:
+             MY_ENV: '1'
            with:
              docs-folder: docs/
              pages-branch: 'nist-pages'
@@ -40,6 +42,15 @@ as :file:`.github/workflows/Docs4NIST.yml`:
              conda-environment: ''
              push-pulls-pages: false
              include-header-footer: true
+
+Environment variables
+---------------------
+
+Any environment variables defined at the workflow / job / step level are
+propagated into the action's Docker container. This action sets
+``runs.env: ${{ env }}`` in ``action.yml``, so prefer setting repository or
+job-level ``env:`` entries for values you want available inside the
+container.
 
 Inputs
 ------
